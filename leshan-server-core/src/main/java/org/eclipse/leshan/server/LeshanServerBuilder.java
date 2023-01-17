@@ -53,8 +53,8 @@ import org.eclipse.leshan.server.security.SecurityStore;
 import org.eclipse.leshan.server.security.ServerSecurityInfo;
 
 /**
- * Class helping you to build and configure a Californium based Leshan Lightweight M2M server. Usage: create it, call
- * the different setters for changing the configuration and then call the {@link #build()} method for creating the
+ * Class helping you to build and configure a Californium based Leshan Lightweight M2M server.
+ * Usage: create it, call the different setters for changing the configuration and then call the {@link #build()} method for creating the
  * {@link LeshanServer} ready to operate.
  */
 public class LeshanServerBuilder {

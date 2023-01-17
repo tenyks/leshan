@@ -103,7 +103,7 @@ public class SecurityInfo implements Serializable {
      * <p>
      * By default, the certificate Common Name (CN) MUST match the endpoint name.
      *
-     * @param endpoint the endpont name of the client.
+     * @param endpoint the endpoint name of the client.
      * @return a X.509 Security Info.
      */
     public static SecurityInfo newX509CertInfo(String endpoint) {

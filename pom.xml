@@ -16,7 +16,8 @@ Contributors:
     Sierra Wireless - initial API and implementation
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" child.project.url.inherit.append.path="false" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.eclipse.leshan</groupId>
@@ -103,7 +104,7 @@ Contributors:
     <module>leshan-bsserver-demo</module>
   </modules>
 
-  <scm child.scm.developerConnection.inherit.append.path="false" child.scm.url.inherit.append.path="false">
+  <scm>
     <developerConnection>scm:git:ssh://git@github.com/eclipse/leshan.git</developerConnection>
     <tag>HEAD</tag>
     <url>https://github.com/eclipse/leshan.git</url>
@@ -328,6 +329,7 @@ Contributors:
           <version>3.4.2</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.1.0</version>
         </plugin>
@@ -349,12 +351,12 @@ Contributors:
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.10.1</version>
         </plugin>
-        <plugin>
-          <groupId>com.github.ekryd.sortpom</groupId>
-          <artifactId>sortpom-maven-plugin</artifactId>
-          <!-- can not upgrade because of we stuck with java8 : https://github.com/Ekryd/sortpom/issues/225 -->
-          <version>3.0.1</version>
-        </plugin>
+<!--        <plugin>-->
+<!--          <groupId>com.github.ekryd.sortpom</groupId>-->
+<!--          <artifactId>sortpom-maven-plugin</artifactId>-->
+<!--          &lt;!&ndash; can not upgrade because of we stuck with java8 : https://github.com/Ekryd/sortpom/issues/225 &ndash;&gt;-->
+<!--          <version>3.0.1</version>-->
+<!--        </plugin>-->
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <!-- stay with 3.0.0-M5 waiting to know more about : https://issues.apache.org/jira/browse/SUREFIRE-2110 -->
@@ -419,12 +421,12 @@ Contributors:
           <!--  stuck to 1.6.x for java8 compatibility -->
           <version>1.6.2</version>
         </plugin>
-        <plugin>
-          <groupId>net.revelc.code.formatter</groupId>
-          <artifactId>formatter-maven-plugin</artifactId>
-          <!--  stuck to 2.16.0 for java8 compatibility -->
-          <version>2.16.0</version>
-        </plugin>
+<!--        <plugin>-->
+<!--          <groupId>net.revelc.code.formatter</groupId>-->
+<!--          <artifactId>formatter-maven-plugin</artifactId>-->
+<!--          &lt;!&ndash;  stuck to 2.16.0 for java8 compatibility &ndash;&gt;-->
+<!--          <version>2.16.0</version>-->
+<!--        </plugin>-->
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
@@ -456,31 +458,32 @@ Contributors:
     </pluginManagement>
 
     <plugins>
+<!--      <plugin>-->
+<!--        &lt;!&ndash;  One of the rare plugin which must be called on all module even Aggregator-->
+<!--                      because it must check formatting of all pom.xml file.-->
+<!--                      Must be called with -PallPom profile &ndash;&gt;-->
+<!--        <groupId>com.github.ekryd.sortpom</groupId>-->
+<!--        <artifactId>sortpom-maven-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <createBackupFile>false</createBackupFile>-->
+<!--          <lineSeparator>${leshan.lineseparator}</lineSeparator>-->
+<!--          <verifyFail>stop</verifyFail>-->
+<!--          <verifyFailOn>Strict</verifyFailOn>-->
+<!--        </configuration>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <goals>-->
+<!--              <goal>verify</goal>-->
+<!--            </goals>-->
+<!--            &lt;!&ndash; attach to process-sources to avoid flatten-maven-plugin interaction-->
+<!--                 with some maven plugin (E.g. maven-source-plugin or maven-javadoc-plugin)-->
+<!--                 See : https://github.com/Ekryd/sortpom/issues/229#issuecomment-1177872634 &ndash;&gt;-->
+<!--            <phase>process-sources</phase>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
       <plugin>
-        <!--  One of the rare plugin which must be called on all module even Aggregator
-                      because it must check formatting of all pom.xml file.
-                      Must be called with -PallPom profile -->
-        <groupId>com.github.ekryd.sortpom</groupId>
-        <artifactId>sortpom-maven-plugin</artifactId>
-        <configuration>
-          <createBackupFile>false</createBackupFile>
-          <lineSeparator>${leshan.lineseparator}</lineSeparator>
-          <verifyFail>stop</verifyFail>
-          <verifyFailOn>Strict</verifyFailOn>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>verify</goal>
-            </goals>
-            <!-- attach to process-sources to avoid flatten-maven-plugin interaction
-                 with some maven plugin (E.g. maven-source-plugin or maven-javadoc-plugin)
-                 See : https://github.com/Ekryd/sortpom/issues/229#issuecomment-1177872634 -->
-            <phase>process-sources</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <configuration>
           <rules>
