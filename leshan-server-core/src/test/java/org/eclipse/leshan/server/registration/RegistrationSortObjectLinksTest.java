@@ -17,13 +17,16 @@
 
 package org.eclipse.leshan.server.registration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
+import org.eclipse.leshan.core.endpoint.EndpointUriUtil;
 import org.eclipse.leshan.core.link.Link;
 import org.eclipse.leshan.core.request.Identity;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RegistrationSortObjectLinksTest {
 
@@ -35,14 +38,15 @@ public class RegistrationSortObjectLinksTest {
         objs[2] = null;
 
         Registration.Builder builder = new Registration.Builder("registrationId", "endpoint",
-                Identity.unsecure(Inet4Address.getLocalHost(), 1)).objectLinks(objs);
+                Identity.unsecure(Inet4Address.getLocalHost(), 1), EndpointUriUtil.createUri("coap://localhost:5683"))
+                        .objectLinks(objs);
 
         Registration r = builder.build();
 
         Link[] res = r.getSortedObjectLinks();
-        Assert.assertEquals(3, res.length);
-        Assert.assertNull(res[0]);
-        Assert.assertEquals("/0/2", res[1].getUriReference());
-        Assert.assertEquals("/0/1024/2", res[2].getUriReference());
+        assertEquals(3, res.length);
+        assertNull(res[0]);
+        assertEquals("/0/2", res[1].getUriReference());
+        assertEquals("/0/1024/2", res[2].getUriReference());
     }
 }

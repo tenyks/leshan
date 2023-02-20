@@ -15,7 +15,7 @@
  *******************************************************************************/
 package org.eclipse.leshan.server.californium;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.InetSocketAddress;
 import java.util.EnumSet;
@@ -33,7 +33,7 @@ import org.eclipse.leshan.server.californium.endpoint.CaliforniumServerEndpoints
 import org.eclipse.leshan.server.californium.endpoint.CaliforniumServerEndpointsProvider.Builder;
 import org.eclipse.leshan.server.queue.PresenceServiceImpl;
 import org.eclipse.leshan.server.registration.Registration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LeshanServerTest {
 
@@ -68,7 +68,7 @@ public class LeshanServerTest {
 
         // ensure all thread are destroyed
         Thread.sleep(500);
-        assertEquals("All news created threads must be destroyed", numberOfThreadbefore, Thread.activeCount());
+        assertEquals(numberOfThreadbefore, Thread.activeCount(), "All news created threads must be destroyed");
     }
 
     @Test
@@ -91,7 +91,7 @@ public class LeshanServerTest {
 
         // ensure all thread are destroyed
         Thread.sleep(500);
-        assertEquals("All news created threads must be destroyed", numberOfThreadbefore, Thread.activeCount());
+        assertEquals(numberOfThreadbefore, Thread.activeCount(), "All news created threads must be destroyed");
     }
 
     @Test
@@ -114,13 +114,13 @@ public class LeshanServerTest {
 
         // ensure all thread are destroyed
         Thread.sleep(500);
-        assertEquals("All news created threads must be destroyed", numberOfThreadbefore, Thread.activeCount());
+        assertEquals(numberOfThreadbefore, Thread.activeCount(), "All news created threads must be destroyed");
     }
 
     private void forceThreadsCreation(LeshanServer server) {
-        Registration reg = new Registration.Builder("id", "endpoint", Identity.unsecure(new InetSocketAddress(5555)))
-                .bindingMode(EnumSet.of(BindingMode.U, BindingMode.Q))
-                .lastEndpointUsed(server.getEndpoint(Protocol.COAP).getURI()).build();
+        Registration reg = new Registration.Builder("id", "endpoint", Identity.unsecure(new InetSocketAddress(5555)),
+                server.getEndpoint(Protocol.COAP).getURI()).bindingMode(EnumSet.of(BindingMode.U, BindingMode.Q))
+                        .build();
         // Force timer thread creation of preference service.
         if (server.getPresenceService() != null) {
             ((PresenceServiceImpl) server.getPresenceService()).setAwake(reg);

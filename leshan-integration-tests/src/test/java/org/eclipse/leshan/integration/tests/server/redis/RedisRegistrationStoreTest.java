@@ -16,9 +16,10 @@
  *******************************************************************************/
 package org.eclipse.leshan.integration.tests.server.redis;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -35,6 +36,7 @@ import org.eclipse.californium.core.network.serialization.UdpDataParser;
 import org.eclipse.californium.core.network.serialization.UdpDataSerializer;
 import org.eclipse.californium.elements.AddressEndpointContext;
 import org.eclipse.leshan.core.californium.ObserveUtil;
+import org.eclipse.leshan.core.endpoint.EndpointUriUtil;
 import org.eclipse.leshan.core.link.Link;
 import org.eclipse.leshan.core.node.LwM2mPath;
 import org.eclipse.leshan.core.observation.CompositeObservation;
@@ -56,9 +58,9 @@ import org.eclipse.leshan.server.profile.ClientProfile;
 import org.eclipse.leshan.server.redis.RedisRegistrationStore;
 import org.eclipse.leshan.server.registration.Registration;
 import org.eclipse.leshan.server.registration.RegistrationStore;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RedisRegistrationStoreTest {
 
@@ -79,7 +81,7 @@ public class RedisRegistrationStoreTest {
 
     RedisIntegrationTestHelper helper;
 
-    @Before
+    @BeforeEach
     public void setUp() throws UnknownHostException {
         helper = new RedisIntegrationTestHelper();
         address = InetAddress.getLocalHost();
@@ -109,7 +111,7 @@ public class RedisRegistrationStoreTest {
         }, new ObservationSerDes(new UdpDataParser(), new UdpDataSerializer()));
     }
 
-    @After
+    @AfterEach
     public void stop() {
         store.removeRegistration(registrationId);
     }
@@ -158,8 +160,27 @@ public class RedisRegistrationStoreTest {
         assertEquals(examplePaths, observation.getPaths());
     }
 
+    @Test
+    public void remove_observation() {
+        // given
+        givenASimpleRegistration(lifetime);
+        store.addRegistration(registration);
+
+        org.eclipse.californium.core.observe.Observation observationToStore = prepareCoapObservationOnSingle("/1/2/3");
+        observationStore.put(aToken, observationToStore);
+
+        // when
+        observationStore.remove(aToken);
+
+        // then
+        Observation leshanObservation = store.getObservation(registrationId,
+                new ObservationIdentifier(aToken.getBytes()));
+        assertNull(leshanObservation);
+    }
+
     private void givenASimpleRegistration(Long lifetime) {
-        Registration.Builder builder = new Registration.Builder(registrationId, ep, Identity.unsecure(address, port));
+        Registration.Builder builder = new Registration.Builder(registrationId, ep, Identity.unsecure(address, port),
+                EndpointUriUtil.createUri("coap://localhost:5683"));
 
         registration = builder.lifeTimeInSec(lifetime).smsNumber(sms).bindingMode(binding).objectLinks(objectLinks)
                 .build();

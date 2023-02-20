@@ -15,14 +15,17 @@
  *******************************************************************************/
 package org.eclipse.leshan.server.registration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.net.Inet4Address;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.leshan.core.endpoint.EndpointUriUtil;
 import org.eclipse.leshan.core.request.Identity;
 import org.eclipse.leshan.server.queue.PresenceService;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * tests the implementation of {@link PresenceService}
@@ -33,7 +36,7 @@ public class RegistrationUpdateTest {
     @Test
     public void testAdditionalAttributesUpdate() throws Exception {
         Registration.Builder builder = new Registration.Builder("registrationId", "endpoint",
-                Identity.unsecure(Inet4Address.getLocalHost(), 1));
+                Identity.unsecure(Inet4Address.getLocalHost(), 1), EndpointUriUtil.createUri("coap://localhost:5683"));
 
         Map<String, String> additionalAttributes = new HashMap<String, String>();
         additionalAttributes.put("x", "1");
@@ -56,18 +59,18 @@ public class RegistrationUpdateTest {
 
         Map<String, String> updatedAdditionalAttributes = r.getAdditionalRegistrationAttributes();
 
-        Assert.assertEquals("2", updatedAdditionalAttributes.get("x"));
-        Assert.assertEquals("11", updatedAdditionalAttributes.get("y"));
-        Assert.assertEquals("101", updatedAdditionalAttributes.get("z"));
-        Assert.assertTrue(updatedAdditionalAttributes.containsKey("h"));
-        Assert.assertEquals("hello", updatedAdditionalAttributes.get("h"));
+        assertEquals("2", updatedAdditionalAttributes.get("x"));
+        assertEquals("11", updatedAdditionalAttributes.get("y"));
+        assertEquals("101", updatedAdditionalAttributes.get("z"));
+        assertTrue(updatedAdditionalAttributes.containsKey("h"));
+        assertEquals("hello", updatedAdditionalAttributes.get("h"));
     }
 
     @Test
     public void testApplicationDataUpdate() throws Exception {
 
         Registration.Builder builder = new Registration.Builder("registrationId", "endpoint",
-                Identity.unsecure(Inet4Address.getLocalHost(), 1));
+                Identity.unsecure(Inet4Address.getLocalHost(), 1), EndpointUriUtil.createUri("coap://localhost:5683"));
         Map<String, String> appData = new HashMap<String, String>();
         appData.put("x", "1");
         appData.put("y", "10");
@@ -82,8 +85,8 @@ public class RegistrationUpdateTest {
 
         Map<String, String> updatedAppData = r.getApplicationData();
 
-        Assert.assertEquals("1", updatedAppData.get("x"));
-        Assert.assertEquals("10", updatedAppData.get("y"));
-        Assert.assertEquals("100", updatedAppData.get("z"));
+        assertEquals("1", updatedAppData.get("x"));
+        assertEquals("10", updatedAppData.get("y"));
+        assertEquals("100", updatedAppData.get("z"));
     }
 }

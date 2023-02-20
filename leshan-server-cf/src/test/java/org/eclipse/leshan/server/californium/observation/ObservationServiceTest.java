@@ -16,7 +16,8 @@
  *******************************************************************************/
 package org.eclipse.leshan.server.californium.observation;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.InetAddress;
 import java.net.URI;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.eclipse.leshan.core.endpoint.EndpointUriUtil;
 import org.eclipse.leshan.core.endpoint.Protocol;
 import org.eclipse.leshan.core.link.Link;
 import org.eclipse.leshan.core.node.LwM2mPath;
@@ -53,9 +55,8 @@ import org.eclipse.leshan.server.registration.RegistrationStore;
 import org.eclipse.leshan.server.request.LowerLayerConfig;
 import org.eclipse.leshan.server.request.UplinkRequestReceiver;
 import org.eclipse.leshan.server.security.ServerSecurityInfo;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObservationServiceTest {
 
@@ -64,7 +65,7 @@ public class ObservationServiceTest {
     Registration registration;
     Random r;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         registration = givenASimpleRegistration();
         store = new InMemoryRegistrationStore();
@@ -73,7 +74,8 @@ public class ObservationServiceTest {
 
     private Registration givenASimpleRegistration() throws UnknownHostException {
         Registration.Builder builder = new Registration.Builder("4711", "urn:endpoint",
-                Identity.unsecure(InetAddress.getLocalHost(), 23452));
+                Identity.unsecure(InetAddress.getLocalHost(), 23452),
+                EndpointUriUtil.createUri("coap://localhost:5683"));
         return builder.lifeTimeInSec(10000L).bindingMode(EnumSet.of(BindingMode.U))
                 .objectLinks(new Link[] { new Link("/3") }).build();
     }
@@ -87,7 +89,7 @@ public class ObservationServiceTest {
 
         // check the presence of only one observation.
         Set<Observation> observations = observationService.getObservations(registration);
-        Assert.assertEquals(1, observations.size());
+        assertEquals(1, observations.size());
     }
 
     @Test
@@ -102,11 +104,11 @@ public class ObservationServiceTest {
 
         // check its presence
         Set<Observation> observations = observationService.getObservations(registration);
-        Assert.assertEquals(2, observations.size());
+        assertEquals(2, observations.size());
 
         // cancel it
         int nbCancelled = observationService.cancelObservations(registration);
-        Assert.assertEquals(2, nbCancelled);
+        assertEquals(2, nbCancelled);
 
         // check its absence
         observations = observationService.getObservations(registration);
@@ -126,15 +128,15 @@ public class ObservationServiceTest {
 
         // check its presence
         Set<Observation> observations = observationService.getObservations(registration);
-        Assert.assertEquals(2, observations.size());
+        assertEquals(2, observations.size());
 
         // cancel it
         int nbCancelled = observationService.cancelObservations(registration, "/3/0/12");
-        Assert.assertEquals(1, nbCancelled);
+        assertEquals(1, nbCancelled);
 
         // check its absence
         observations = observationService.getObservations(registration);
-        Assert.assertEquals(1, observations.size());
+        assertEquals(1, observations.size());
     }
 
     @Test
@@ -150,14 +152,14 @@ public class ObservationServiceTest {
 
         // check its presence
         Set<Observation> observations = observationService.getObservations(registration);
-        Assert.assertEquals(2, observations.size());
+        assertEquals(2, observations.size());
 
         // cancel it
         observationService.cancelObservation(observationToCancel);
 
         // check its absence
         observations = observationService.getObservations(registration);
-        Assert.assertEquals(1, observations.size());
+        assertEquals(1, observations.size());
     }
 
     private void createDefaultObservationService() {
@@ -183,7 +185,8 @@ public class ObservationServiceTest {
         Registration.Builder builder;
         try {
             builder = new Registration.Builder(registrationId, registrationId + "_ep",
-                    Identity.unsecure(InetAddress.getLocalHost(), 10000));
+                    Identity.unsecure(InetAddress.getLocalHost(), 10000),
+                    EndpointUriUtil.createUri("coap://localhost:5683"));
             return builder.build();
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);

@@ -15,26 +15,27 @@
  *******************************************************************************/
 package org.eclipse.leshan.server.queue;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.EnumSet;
 
+import org.eclipse.leshan.core.endpoint.EndpointUriUtil;
 import org.eclipse.leshan.core.request.BindingMode;
 import org.eclipse.leshan.core.request.Identity;
 import org.eclipse.leshan.server.registration.Registration;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * tests the implementation of {@link PresenceService}
  *
  */
 public class PresenceServiceTest {
-    private ClientAwakeTimeProvider awakeTimeProvider = new StaticClientAwakeTimeProvider();
-    private PresenceServiceImpl presenceService = new PresenceServiceImpl(awakeTimeProvider);
+    private final ClientAwakeTimeProvider awakeTimeProvider = new StaticClientAwakeTimeProvider();
+    private final PresenceServiceImpl presenceService = new PresenceServiceImpl(awakeTimeProvider);
 
     @Test
     public void testSetOnlineForNonQueueMode() throws Exception {
@@ -65,7 +66,8 @@ public class PresenceServiceTest {
 
     private Registration givenASimpleClient() throws UnknownHostException {
         Registration.Builder builder = new Registration.Builder("ID", "urn:client",
-                Identity.unsecure(Inet4Address.getLoopbackAddress(), 12354));
+                Identity.unsecure(Inet4Address.getLoopbackAddress(), 12354),
+                EndpointUriUtil.createUri("coap://localhost:5683"));
 
         Registration reg = builder.build();
         presenceService.setAwake(reg);
@@ -75,7 +77,8 @@ public class PresenceServiceTest {
     private Registration givenASimpleClientWithQueueMode() throws UnknownHostException {
 
         Registration.Builder builder = new Registration.Builder("ID", "urn:client",
-                Identity.unsecure(Inet4Address.getLoopbackAddress(), 12354));
+                Identity.unsecure(Inet4Address.getLoopbackAddress(), 12354),
+                EndpointUriUtil.createUri("coap://localhost:5683"));
 
         Registration reg = builder.bindingMode(EnumSet.of(BindingMode.U, BindingMode.Q)).build();
         presenceService.setAwake(reg);
