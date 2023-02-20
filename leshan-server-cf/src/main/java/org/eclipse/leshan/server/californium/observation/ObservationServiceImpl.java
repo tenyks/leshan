@@ -70,7 +70,7 @@ public class ObservationServiceImpl implements ObservationService, NotificationL
     private Endpoint nonSecureEndpoint;
     private boolean updateRegistrationOnNotification;
 
-    private final List<ObservationListener> listeners = new CopyOnWriteArrayList<>();;
+    private final List<ObservationListener> listeners = new CopyOnWriteArrayList<>();
 
     /**
      * Creates an instance of {@link ObservationServiceImpl}
@@ -139,11 +139,11 @@ public class ObservationServiceImpl implements ObservationService, NotificationL
     }
 
     @Override
-    public int cancelObservations(Registration registration, String resourcepath) {
-        if (registration == null || registration.getId() == null || resourcepath == null || resourcepath.isEmpty())
+    public int cancelObservations(Registration registration, String resourcePath) {
+        if (registration == null || registration.getId() == null || resourcePath == null || resourcePath.isEmpty())
             return 0;
 
-        Set<Observation> observations = getObservations(registration.getId(), resourcepath);
+        Set<Observation> observations = getObservations(registration.getId(), resourcePath);
         for (Observation observation : observations) {
             cancelObservation(observation);
         }
@@ -224,13 +224,13 @@ public class ObservationServiceImpl implements ObservationService, NotificationL
             return;
 
         // get registration Id
-        String regid = coapRequest.getUserContext().get(ObserveUtil.CTX_REGID);
+        String regId = coapRequest.getUserContext().get(ObserveUtil.CTX_REGID);
 
         // get observation for this request
-        Observation observation = registrationStore.getObservation(regid, coapResponse.getToken().getBytes());
+        Observation observation = registrationStore.getObservation(regId, coapResponse.getToken().getBytes());
         if (observation == null) {
             LOG.error("Unexpected error: Unable to find observation with token {} for registration {}",
-                    coapResponse.getToken(), regid);
+                    coapResponse.getToken(), regId);
             return;
         }
 

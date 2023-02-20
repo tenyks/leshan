@@ -304,7 +304,7 @@ public class LeshanServer {
 
             @Override
             public void registered(Registration registration, Registration previousReg,
-                    Collection<Observation> previousObsersations) {
+                    Collection<Observation> previousObservations) {
             }
         });
 
@@ -681,6 +681,9 @@ public class LeshanServer {
         return coapApi;
     }
 
+    /**
+     * Coap协议实现的封装
+     */
     public class CoapAPI {
 
         /**

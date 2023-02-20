@@ -560,5 +560,6 @@ public class LeshanServerDemo {
         lwServer.start();
         server.start();
         LOG.info("Web server started at {}.", server.getURI());
+        LOG.info("Coap server started at {}, {}.", lwServer.getUnsecuredAddress(), lwServer.getSecuredAddress());
     }
 }

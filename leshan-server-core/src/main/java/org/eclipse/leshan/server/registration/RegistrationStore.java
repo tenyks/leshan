@@ -28,7 +28,7 @@ public interface RegistrationStore {
 
     /**
      * Store a new registration.
-     * 
+     *
      * If a registration already exists with the given endpoint, the store is in charge of removing this registration as
      * well as the ongoing observations.
      * 

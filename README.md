@@ -97,3 +97,8 @@ java -jar leshan-bsserver-demo/target/leshan-bsserver-demo-*-SNAPSHOT-jar-with-d
 Let's start to code !
 ---------------------
 Now you played a bit with our demo, you should start to code your own server or client using our [Getting-started](https://github.com/eclipse/leshan/wiki/Getting-started) guide.
+
+参考
+---------------------
+* [基于LwM2M协议的Eclipse Leshan简介](https://blog.csdn.net/xiaos76/article/details/102881249)
+* [leshan代码阅读，并注解](https://gitee.com/JJput/leshan-analysis)

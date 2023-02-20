@@ -43,10 +43,10 @@ public interface ObservationService {
      * the canceled observation.
      * 
      * @param registration the LWM2M Client to cancel observation for
-     * @param resourcepath resource to cancel observation for
+     * @param resourcePath resource to cancel observation for
      * @return the number of canceled observations
      */
-    int cancelObservations(Registration registration, String resourcepath);
+    int cancelObservations(Registration registration, String resourcePath);
 
     /**
      * Cancels an observation.
