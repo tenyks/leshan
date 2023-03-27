@@ -87,7 +87,7 @@ public class SendResource extends LwM2mCoapResource {
                     sendRequest, exchange.advanced().getEndpoint().getUri());
             SendResponse response = sendableResponse.getResponse();
 
-            // send reponse
+            // send response
             if (response.isSuccess()) {
                 exchange.respond(toCoapResponseCode(response.getCode()));
                 sendableResponse.sent();

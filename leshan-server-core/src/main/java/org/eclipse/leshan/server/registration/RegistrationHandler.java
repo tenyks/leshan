@@ -53,8 +53,7 @@ public class RegistrationHandler {
         this.registrationIdProvider = registrationIdProvider;
     }
 
-    public SendableResponse<RegisterResponse> register(Identity sender, RegisterRequest registerRequest,
-            URI endpointUsed) {
+    public SendableResponse<RegisterResponse> register(Identity sender, RegisterRequest registerRequest, URI endpointUsed) {
 
         // Create Registration from RegisterRequest
         Registration.Builder builder = new Registration.Builder(

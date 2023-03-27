@@ -163,8 +163,7 @@ public class LeshanServer {
         endpointsProvider.createEndpoints(requestReceiver, observationService, toolbox, serverSecurityInfo, this);
 
         // create request sender
-        requestSender = createRequestSender(endpointsProvider, registrationService, this.modelProvider,
-                presenceService);
+        requestSender = createRequestSender(endpointsProvider, registrationService, this.modelProvider, presenceService);
 
     }
 
