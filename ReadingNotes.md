@@ -64,5 +64,24 @@
 * org.eclipse.leshan.server.californium.request.CoapRequestBuilder
 * org.eclipse.leshan.server.californium.request.CoapRequestSender
 
+# leshan-client-core的关键类
+
+## 框架相关类
+* org.eclipse.leshan.client.LwM2mClient
+* org.eclipse.leshan.client.EndpointsManager
+  
+* org.eclipse.leshan.client.request.LwM2mRequestSender
+
+## 关键概念落地类
+* org.eclipse.leshan.client.servers.ServerIdentity
+* org.eclipse.leshan.client.resource.LwM2mObjectEnabler
+* org.eclipse.leshan.client.resource.LwM2mObjectEnabler2
+* org.eclipse.leshan.client.resource.LwM2mInstanceEnabler
+* 
+* 
+
+
 # Californium相关类
 * org.eclipse.californium.core.network.stack.ReliabilityLayer
+
+
