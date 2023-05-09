@@ -9,6 +9,13 @@
 * org.eclipse.californium.core.network.Endpoint
 * |-> org.eclipse.californium.core.network.CoapEndpoint
 * org.eclipse.californium.core.server.MessageDeliverer
+* org.eclipse.californium.core.network.stack.Layer
+* |-> org.eclipse.californium.core.network.stack.AbstractLayer
+*    |-> org.eclipse.californium.core.network.stack.ExchangeCleanupLayer
+*    |-> org.eclipse.californium.core.network.stack.ObserveLayer
+*    |-> org.eclipse.californium.core.network.stack.BlockwiseLayer
+*    |-> org.eclipse.californium.core.network.stack.ReliabilityLayer
+*        |-> org.eclipse.californium.core.network.stack.CongestionControlLayer
 
 # 示意图
 * CoapEndpoint组成示意图<br>

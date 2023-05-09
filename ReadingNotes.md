@@ -81,7 +81,6 @@
 * 
 
 
-# Californium相关类
-* org.eclipse.californium.core.network.stack.ReliabilityLayer
+
 
 
