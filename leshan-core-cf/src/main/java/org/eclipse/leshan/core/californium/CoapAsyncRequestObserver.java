@@ -58,7 +58,7 @@ public class CoapAsyncRequestObserver extends AbstractRequestObserver {
     private ScheduledExecutorService executor;
 
     // The Californium API does not ensure that message callback are exclusive
-    // meaning that you can get a onReponse call and a onCancel one.
+    // meaning that you can get a onResponse call and a onCancel one.
     // The CoapAsyncRequestObserver ensure that you will receive only one event.
     // You get either 1 response or 1 error.
     // This boolean is used to ensure this.
