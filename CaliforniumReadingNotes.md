@@ -17,6 +17,10 @@
 *    |-> org.eclipse.californium.core.network.stack.ReliabilityLayer
 *        |-> org.eclipse.californium.core.network.stack.CongestionControlLayer
 
+## 拦截切入相关类
+* org.eclipse.californium.core.network.MessagePostProcessInterceptors
+* org.eclipse.californium.core.network.interceptors.MessageInterceptor
+
 # 示意图
 * CoapEndpoint组成示意图<br>
   ![CoapEndpoint组成示意图](./diagrams/californium_arch_001.png)
