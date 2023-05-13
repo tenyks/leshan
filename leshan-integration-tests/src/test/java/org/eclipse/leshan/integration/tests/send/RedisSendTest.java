@@ -15,17 +15,33 @@
  *******************************************************************************/
 package org.eclipse.leshan.integration.tests.send;
 
-import org.eclipse.leshan.client.resource.ObjectsInitializer;
-import org.eclipse.leshan.core.model.StaticModel;
-import org.eclipse.leshan.integration.tests.util.RedisIntegrationTestHelper;
+import org.eclipse.leshan.core.endpoint.Protocol;
+import org.eclipse.leshan.integration.tests.util.LeshanTestServerBuilder;
+import org.eclipse.leshan.server.redis.RedisRegistrationStore;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.util.Pool;
 
 public class RedisSendTest extends SendTest {
-    public RedisSendTest() {
-        helper = new RedisIntegrationTestHelper() {
-            @Override
-            protected ObjectsInitializer createObjectsInitializer() {
-                return new ObjectsInitializer(new StaticModel(createObjectModels()));
-            };
-        };
+    @Override
+    protected LeshanTestServerBuilder givenServerUsing(Protocol givenProtocol) {
+        LeshanTestServerBuilder builder = super.givenServerUsing(givenProtocol);
+
+        // Create redis store
+        Pool<Jedis> jedis = createJedisPool();
+        // TODO use custom key when https://github.com/eclipse/leshan/issues/1249 will be available
+        builder.setRegistrationStore(new RedisRegistrationStore(jedis));
+
+        return builder;
+    }
+
+    private Pool<Jedis> createJedisPool() {
+        String redisURI = System.getenv("REDIS_URI");
+        if (redisURI != null && !redisURI.isEmpty()) {
+            return new JedisPool(redisURI);
+        } else {
+            return new JedisPool();
+        }
     }
 }
